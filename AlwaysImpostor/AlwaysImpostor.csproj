@@ -1,0 +1,40 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <LangVersion>latest</LangVersion>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <AssemblyName>AlwaysImpostor</AssemblyName>
+    <RootNamespace>AlwaysImpostor</RootNamespace>
+  </PropertyGroup>
+
+  <!-- Set AMONG_US_DIR to your Among Us install directory before building. -->
+  <PropertyGroup>
+    <AmongUsDir Condition="'$(AMONG_US_DIR)' != ''">$(AMONG_US_DIR)</AmongUsDir>
+    <AmongUsDir Condition="'$(AMONG_US_DIR)' == ''">$(MSBuildProjectDirectory)\..\..\Among Us</AmongUsDir>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Reference Include="BepInEx.Core">
+      <HintPath>$(AmongUsDir)\BepInEx\core\BepInEx.Core.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="UnityEngine.CoreModule">
+      <HintPath>$(AmongUsDir)\BepInEx\interop\UnityEngine.CoreModule.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="Assembly-CSharp">
+      <HintPath>$(AmongUsDir)\BepInEx\interop\Assembly-CSharp.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="InnerNet">
+      <HintPath>$(AmongUsDir)\BepInEx\interop\InnerNet.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+  </ItemGroup>
+
+  <Target Name="CopyPlugin" AfterTargets="Build" Condition="Exists('$(AmongUsDir)\BepInEx\plugins')">
+    <Copy SourceFiles="$(TargetPath)" DestinationFolder="$(AmongUsDir)\BepInEx\plugins\AlwaysImpostor" />
+  </Target>
+</Project>
